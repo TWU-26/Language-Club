@@ -7,7 +7,11 @@ public class Probability {
         if (numerator > denominator) throw new IllegalArgumentException("You're stupid");
         this.numerator = numerator;
         this.denominator = denominator;
-        decimalValue = (double) this.numerator / this.denominator;
+        decimalValue = toDouble();
+    }
+
+    private double toDouble() {
+        return (double) this.numerator / this.denominator;
     }
 
     public boolean isProbable() {
@@ -33,5 +37,11 @@ public class Probability {
     @Override
     public int hashCode() {
         return numerator * 49 + denominator * 50;
+    }
+
+    public Probability and(Probability probability) {
+        int newNumerator = numerator * probability.numerator;
+        int newDenominator = denominator * probability.denominator;
+        return new Probability(newNumerator, newDenominator);
     }
 }

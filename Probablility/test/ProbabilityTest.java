@@ -48,4 +48,10 @@ public class ProbabilityTest {
     public void should_have_the_same_hashcode_with_same_attributes(){
         assertThat(new Probability(5,6).hashCode(), equalTo(new Probability(5,6).hashCode()));
     }
+
+    @Test
+    public void should_return_product_of_probability(){
+        assertThat(new Probability(1, 2).and(new Probability(1, 3)), equalTo(new Probability(1,6)));
+        assertThat(new Probability(1, 2).and(new Probability(1, 5)), equalTo(new Probability(1,10)));
+    }
 }
