@@ -24,13 +24,14 @@ public class Probability {
 
     @Override
     public boolean equals(Object probability) {
-        if (probability instanceof Probability) {
+        if (probability instanceof Probability)
             return (((Probability) probability).decimalValue == this.decimalValue);
-        } else {
-            return super.equals(probability);
-        }
+
+        return false;
     }
 
-    
-
+    @Override
+    public int hashCode() {
+        return numerator * 49 + denominator * 50;
+    }
 }
