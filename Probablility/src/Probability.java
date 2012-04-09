@@ -1,13 +1,12 @@
 public class Probability {
     private int denominator;
     private int numerator;
-    private final double decimalValue;
 
     public Probability(int numerator, int denominator) {
-        if (numerator > denominator) throw new IllegalArgumentException("You're stupid");
+        if (numerator > denominator || numerator < 0 || denominator < 0) throw new IllegalArgumentException("You're stupid");
         this.numerator = numerator;
         this.denominator = denominator;
-        decimalValue = toDouble();
+
     }
 
     private double toDouble() {
@@ -15,21 +14,33 @@ public class Probability {
     }
 
     public boolean isProbable() {
-        return decimalValue > 0.5;
+        return toDouble() > 0.5;
     }
 
     public boolean isImprobable() {
-        return decimalValue < 0.5;
+        return toDouble() < 0.5;
     }
 
     public Probability not() {
         return new Probability(denominator - numerator, denominator);
     }
 
+    public Probability and(Probability probability) {
+        return new Probability(numerator * probability.numerator, denominator * probability.denominator);
+    }
+    
+    public int cross(Probability probability){
+        return this.numerator * probability.denominator;
+    }
+
+    public Probability or(Probability probability) {
+        return (this.not().and(probability.not())).not();
+    }
+
     @Override
     public boolean equals(Object probability) {
         if (probability instanceof Probability)
-            return (((Probability) probability).decimalValue == this.decimalValue);
+            return (((Probability) probability).toDouble() == this.toDouble());
 
         return false;
     }
@@ -37,11 +48,5 @@ public class Probability {
     @Override
     public int hashCode() {
         return numerator * 49 + denominator * 50;
-    }
-
-    public Probability and(Probability probability) {
-        int newNumerator = numerator * probability.numerator;
-        int newDenominator = denominator * probability.denominator;
-        return new Probability(newNumerator, newDenominator);
     }
 }

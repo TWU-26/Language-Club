@@ -50,8 +50,13 @@ public class ProbabilityTest {
     }
 
     @Test
-    public void should_return_product_of_probability(){
-        assertThat(new Probability(1, 2).and(new Probability(1, 3)), equalTo(new Probability(1,6)));
-        assertThat(new Probability(1, 2).and(new Probability(1, 5)), equalTo(new Probability(1,10)));
+
+    public void should_perform_and_on_probabilities(){
+        assertThat((new Probability(1,2)).and(new Probability(3,4)), equalTo(new Probability(3,8)));
+    }
+
+    @Test
+    public void should_perform_or_on_probabilities(){
+        assertThat(new Probability(3,5).or(new Probability(1,4)), equalTo(new Probability(14,20)));
     }
 }
